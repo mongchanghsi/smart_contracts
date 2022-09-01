@@ -5,12 +5,17 @@ enum ExistingContracts {
   Todo = "Todo",
   Whitelist = "Whitelist",
   NFT721 = "NFT_ERC721",
+  ERC20 = "NFT_ERC20",
 }
 
 async function main() {
-  const contract = await ethers.getContractFactory(ExistingContracts.NFT721);
+  const contract = await ethers.getContractFactory("NFT_ERC20");
 
-  const deployedContract = await contract.deploy("NFT", "NT", "mockBaseUri");
+  const deployedContract = await contract.deploy(
+    "MockTokenName",
+    "MTN",
+    "0xf731375b6a48a7dB5214268c00a8fef89a5502Cf"
+  );
 
   await deployedContract.deployed();
 

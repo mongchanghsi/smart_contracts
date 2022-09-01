@@ -17,3 +17,4 @@ This repository serves as my practice to develop smart contracts in solidity. Ea
 - `Todo.sol` - `npm run verify:rinkeby "0xB1351115BA3b99DE2bcD9b11E9860c6471B615AD"`
 - `Whitelist.sol` - `npm run verify:rinkeby "0xA0fbE75BE077270Ba93BE8AD6567c0fdCDb4340C" 10`
 - `NFT_ERC721.sol` - `npm run verify:rinkeby "0xf731375b6a48a7dB5214268c00a8fef89a5502Cf" "NFT" "NT" "mockBaseUri"`
+- `NFT_ERC20.sol` - `npm run verify:rinkeby "0xc872C775E1205D59e186bE50C03f88141b64DbeA" "MockTokenName" "MTN" "0xf731375b6a48a7dB5214268c00a8fef89a5502Cf"`
