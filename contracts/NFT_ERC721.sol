@@ -7,20 +7,19 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract NFT_ERC721 is ERC721Enumerable, Ownable {
   string private _baseTokenURI;
-  uint256 public _presalePrice = 0.008 ether;
-  uint256 public _publicSalePrice = 0.01 ether;
+  uint256 public _presalePrice = 0.001 ether;
+  uint256 public _publicSalePrice = 0.002 ether;
 
   bool public _paused;
-  uint256 public maxSupply = 20;
+  uint256 public maxSupply = 10000;
   uint256 public currentSupply;
 
-  bool public presaleStarted;
-  uint256 public presaleEnded;
+  uint8 public stage = 0; 
 
   uint8 public maxWhitelistAddresses = 10;
   uint8 public currentNumberOfWhitelistedAddresses;
 
-  uint8 public maxMintPerWallet = 1;
+  uint8 public maxMintPerWallet = 100;
 
   mapping(address => bool) public whitelistedAddresses;
   mapping(address => uint256) public userToNumberOfMintedNFT;
@@ -42,13 +41,13 @@ contract NFT_ERC721 is ERC721Enumerable, Ownable {
     whitelistedAddresses[_address] = true;
   }
 
-  function startPresale() public onlyOwner {
-    presaleStarted = true;
-    presaleEnded = block.timestamp + 5 minutes;
+  function setStage(uint8 _stage) public onlyOwner {
+    require(_stage >= 0 && _stage < 3, "[NFT_ERC721 Error] Stage should be 0, 1 and 2.");
+    stage = _stage;
   } 
 
   function presaleMint() public payable onlyWhenNotPaused {
-    require(presaleStarted && block.timestamp < presaleEnded, "[NFT_ERC721 Error] Presale is not running.");
+    require(stage == 1, "[NFT_ERC721 Error] Presale is not running.");
     require(whitelistedAddresses[msg.sender], "[NFT_ERC721 Error] This address is not whitelisted.");
     require(currentSupply < maxSupply, "[NFT_ERC721 Error] Minted out.");
     require(msg.value >= _presalePrice, "[NFT_ERC721 Error] Insufficient ether.");
@@ -60,7 +59,7 @@ contract NFT_ERC721 is ERC721Enumerable, Ownable {
   }
 
   function mint() public payable onlyWhenNotPaused {
-    require(presaleStarted && block.timestamp >=  presaleEnded, "[NFT_ERC721 Error] Presale has not ended yet");
+    require(stage == 2, "[NFT_ERC721 Error] Presale has not ended yet");
     require(currentSupply < maxSupply, "[NFT_ERC721 Error] Minted out.");
     require(msg.value >= _publicSalePrice, "[NFT_ERC721 Error] Insufficient ether.");
     require(userToNumberOfMintedNFT[msg.sender] < maxMintPerWallet, "[NFT_ERC721 Error] User already minted maximum amount allowed.");

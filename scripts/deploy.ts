@@ -10,10 +10,10 @@ enum ExistingContracts {
 }
 
 async function main() {
-  const contract = await ethers.getContractFactory(ExistingContracts.DAO);
+  const contract = await ethers.getContractFactory(ExistingContracts.NFT721);
 
   const deployedContract = await contract.deploy(
-    "0xf731375b6a48a7dB5214268c00a8fef89a5502Cf"
+    "MockERC721", "MockERC", "MockBaseUri"
   );
 
   await deployedContract.deployed();
@@ -27,3 +27,6 @@ main()
     console.error(error);
     process.exit(1);
   });
+
+// Fakemarketplace contract addr 0xcb55E4aD7Fab4c6DDf91d9b381347941C8Cdb0C9
+// DAO contract addr 0x0C4d3ABD43e714871dc65043057B146cdB8bc3F6
